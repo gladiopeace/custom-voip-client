@@ -4,19 +4,25 @@ import java.net.*;
 import java.io.*;
 
 public class SoundReceiver implements Runnable {
-    private BufferedReader in;
+    private DataInputStream in;
     private SoundManager sm;
     
     public SoundReceiver(Socket theSocket, SoundManager sm)  {
         try {
-        	in = new BufferedReader(new InputStreamReader(theSocket.getInputStream()));
+        	in = new DataInputStream(theSocket.getInputStream());
         	this.sm = sm;
         }catch (IOException ioe) {}
     }
     public void run() {
         try{
-            byte[] inStream;
-            while ((inStream = in.readLine().getBytes()) != null)sm.speakerOutput.playAudio(inStream);
+            while (true){
+            	int len = in.readInt();
+            	byte[] data = new byte[len];
+                if (len > 0) {
+                    in.readFully(data);
+                }
+            	sm.speakerOutput.playAudio(data);
+            }
         }catch (IOException ioe) {} 
     } 
     public void closeInStream() {

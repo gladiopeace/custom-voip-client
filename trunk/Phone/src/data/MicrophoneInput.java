@@ -15,9 +15,12 @@ public class MicrophoneInput implements Runnable{
 			targetDataLine.start();
 			
 			byte[] tempBuffer = new byte[3000];
+			int i = 0;
 			while(true){
 				int cnt = targetDataLine.read(tempBuffer, 0, tempBuffer.length);
-				if(cnt > 0)sm.sendAway(new String(tempBuffer));
+				if(cnt > 0){
+					sm.sendAway(tempBuffer);
+				}
 			}
 	    }catch (Exception e) {
 	    	e.printStackTrace();

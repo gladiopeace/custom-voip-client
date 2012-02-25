@@ -1,18 +1,19 @@
 package data;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class SoundManager {
 	
-	private PrintWriter out;
+	private DataOutputStream out;
 	SpeakerOutput speakerOutput;
 	
 	public SoundManager(Socket s){
 		
 		try {
-            out = new PrintWriter(s.getOutputStream(), true);
+            out = new DataOutputStream(s.getOutputStream());
         }catch(IOException iE) {}
 		
 		Thread soundReceiver = new Thread(new SoundReceiver(s, this));
@@ -25,9 +26,9 @@ public class SoundManager {
 	}
 	
 	public void closeOutStream() {
-        if(out != null)out.close();
+        try{out.close();}catch(Exception s){}
     }
-    public void sendAway(String s)  {
-        if(out !=null)out.println(s);
+    public void sendAway(byte[] s)  {
+        try{out.write(s, 0, 3000);}catch(Exception e){}
     }
 }
