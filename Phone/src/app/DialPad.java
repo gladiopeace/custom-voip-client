@@ -39,7 +39,10 @@ public class DialPad extends JPanel implements ActionListener{
 		}
 		catch(Exception e){
 			if (jb.getText().equals("end")){
-				if (window.isAvailable())callInfo.clearDialBar();
+				if (window.isAvailable()){
+					if(callInfo.isDialBarEmpty())System.exit(0);
+					callInfo.clearDialBar();
+				}
 				else window.closeConnection();
 			}
 			if (jb.getText().equals("talk"))window.makeConnection(callInfo.getNumber());

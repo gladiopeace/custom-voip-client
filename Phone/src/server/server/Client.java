@@ -38,6 +38,10 @@ public class Client extends Thread {
                 	String ip = ch.db.getIP(inStream.trim());
                 	sendMessage(ip);
                 }
+                if (inStream.startsWith("number-is-")){
+                	inStream = inStream.replace("number-is-", "");
+                	this.ch.db.addSet(inStream, socket.getInetAddress().toString());
+                }
             }
                 
             out.close();
