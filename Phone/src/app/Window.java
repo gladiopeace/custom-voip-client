@@ -6,6 +6,7 @@ import java.net.Socket;
 import javax.swing.JFrame;
 
 import control.CentralizedDataManager;
+import control.IncomingCallReceiver;
 import data.SoundManager;
 
 public class Window extends JFrame{
@@ -21,8 +22,11 @@ public class Window extends JFrame{
 	private boolean inCall = false;
 	
 	public Window() throws Exception{
-		Socket centralServerDatabase = new Socket("ozymandias.servequake.com", 6666);
+		Socket centralServerDatabase = new Socket("192.168.1.121", 6666);
 		cdm = new CentralizedDataManager(centralServerDatabase, this, false);
+		
+		Thread incoming = new Thread(new IncomingCallReceiver(this));
+		incoming.start();
 		
 		myNumber = initPhoneNumber();
 		cdm.sender.sendAway("number-is-"+getMyNumber());
@@ -32,9 +36,8 @@ public class Window extends JFrame{
 		
 		initWindow();
 	}
-	
 	public String initPhoneNumber(){
-		return "000001";
+		return "000002";
 	}
 	
 	public CallInfo getCallInfo(){
@@ -55,6 +58,7 @@ public class Window extends JFrame{
 			Socket connectionSocket = cdm.getConnectionInfo(number);
 			this.ci.setDialBar(connectionSocket.toString());
 			makeConnection(connectionSocket);
+			System.out.println("making call");
 		}
 		catch (Exception e) {
 			this.ci.setDialBar("NUMBER DOES NOT EXIST");

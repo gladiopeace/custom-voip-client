@@ -35,7 +35,7 @@ public class Server extends JFrame implements ActionListener {
     }
     
     public static void main(String [] args){ 
-        int port = 6969;
+        int port = 6666;
         String servName = "";
         try {
             new Server(port, servName);
