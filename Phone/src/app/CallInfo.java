@@ -12,16 +12,17 @@ public class CallInfo extends JPanel{
 	
 	private JTextField dialing = new JTextField(15);
 	
-	private int myNumber;
+	private String myNumber;
 	
-	public CallInfo(){
+	public CallInfo(String number){
+		myNumber = number;
 		setLayoutToDefault();
 		dialing.setEditable(false);
 	}
 	
 	public void setLayoutToDefault(){
 		this.add(dialing, BorderLayout.CENTER);
-		this.add(new JLabel(myNumber+""), BorderLayout.WEST);
+		this.add(new JLabel(myNumber), BorderLayout.WEST);
 	}
 	
 	public void setLayoutToCalling(){
@@ -33,7 +34,7 @@ public class CallInfo extends JPanel{
 	}
 	
 	public String getNumber(){
-		return dialing.getText();
+		return dialing.getText().replaceAll("-", "");
 	}
 	
 	public void clearDialBar(){
@@ -46,7 +47,13 @@ public class CallInfo extends JPanel{
 	
 	public void appendToDialBar(String s){
 		String dt = dialing.getText();
+		dt = addHyphens(dt);
 		this.setDialBar(dt+s);
+	}
+	
+	public String addHyphens(String original){
+		if (original.length()%3==2)original+="-";
+		return original;
 	}
 	
 	public void appendToDialBar(int i){

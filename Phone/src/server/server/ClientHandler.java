@@ -39,7 +39,7 @@ public class ClientHandler implements Runnable {
         thread.start();
         
         
-        db.addSet("000000", "localhost");
+        //db.addSet("000000", "localhost");
     }
         
     public void run() {

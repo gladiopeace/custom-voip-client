@@ -41,6 +41,7 @@ public class Client extends Thread {
                 if (inStream.startsWith("number-is-")){
                 	inStream = inStream.replace("number-is-", "");
                 	this.ch.db.addSet(inStream, socket.getInetAddress().toString());
+                	this.ch.chatServer.showMessage(this.ch.db.toString());
                 }
             }
                 

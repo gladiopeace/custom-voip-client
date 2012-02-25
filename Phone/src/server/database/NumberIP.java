@@ -17,4 +17,8 @@ public class NumberIP {
 	public String getIP(){
 		return ip;
 	}
+	
+	public String toString(){
+		return number+"-"+ip;
+	}
 }

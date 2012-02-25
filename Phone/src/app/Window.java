@@ -1,13 +1,20 @@
 package app;
 
 import java.awt.BorderLayout;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 
 import control.CentralizedDataManager;
 
 public class Window extends JFrame{
+	
+	private final String myNumber;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -18,13 +25,37 @@ public class Window extends JFrame{
 	private boolean inCall = false;
 	
 	public Window() throws Exception{
-		ci = new CallInfo();
+		Socket centralServerDatabase = new Socket("99.159.103.70", 6969);
+		cdm = new CentralizedDataManager(centralServerDatabase, this, false);
+		
+		myNumber = initPhoneNumber()+"";
+		cdm.sender.sendAway("number-is-"+getMyNumber());
+		
+		ci = new CallInfo(getMyNumber());
 		dp = new DialPad(ci, this);
 		
-		Socket centralServerDatabase = new Socket("localhost", 6969);
-		cdm = new CentralizedDataManager(centralServerDatabase, this);
-		
 		initWindow();
+	}
+	
+	public int initPhoneNumber(){
+		try{
+			Scanner reader = new Scanner(new File("c:/.microcall/number.phone"));
+			return reader.nextInt();
+		}
+		catch(Exception sa){
+			int i = (int)(Math.random()*1000000);
+			File file = new File("c:/.microcall/number.phone");
+			try {
+				file.createNewFile();
+				FileWriter fstream = new FileWriter("out.txt");
+				BufferedWriter out = new BufferedWriter(fstream);
+				out.write(i+"");
+				out.close();
+			}catch (IOException e){
+				System.err.println("oh meh gawd");
+			}
+			return i;
+		}
 	}
 	
 	public CallInfo getCallInfo(){
@@ -47,7 +78,7 @@ public class Window extends JFrame{
 			makeConnection(connectionSocket);
 		}
 		catch (Exception e) {
-			this.ci.setDialBar("NMBER DOES NOT EXIST");
+			this.ci.setDialBar("NUMBER DOES NOT EXIST");
 		}
 	}
 	
@@ -79,6 +110,10 @@ public class Window extends JFrame{
 
 	public void setInCall(boolean inCall) {
 		this.inCall = inCall;
+	}
+
+	public String getMyNumber() {
+		return myNumber;
 	}
 	
 	
