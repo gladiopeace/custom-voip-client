@@ -9,7 +9,7 @@ import app.Window;
 
 public class CentralizedDataManager{
 	
-	private Sender sender;
+	public Sender sender;
 	private Receiver receiver;
 	private ArrayList<String> messagesFromServer = new ArrayList<String>();
 	private boolean received = false;
@@ -17,15 +17,16 @@ public class CentralizedDataManager{
 	
 	
 	public CentralizedDataManager() throws UnknownHostException, IOException{
-		this(new Socket("url", 6969), null);
+		this(new Socket("url", 6969), null, false);
 	}
 	
-	public CentralizedDataManager(Socket socket, Window w){
+	public CentralizedDataManager(Socket socket, Window w, boolean b){
 		window = w;
 		sender = new Sender(socket);
 		receiver = new Receiver(socket, this);
 		Thread receiverThread = new Thread(receiver);
 		receiverThread.start();
+		if (b)sender.sendAway("number-is-"+window.getMyNumber());
 	}
 
 	public Socket getConnectionInfo(String numberDialed) throws Exception{
@@ -34,7 +35,7 @@ public class CentralizedDataManager{
 			window.getCallInfo().setDialBar("waiting...");
 		}
 		received = false;
-		String response = this.messagesFromServer.get(this.messagesFromServer.size()-1);
+		String response = this.messagesFromServer.get(this.messagesFromServer.size()-1).replaceAll("/", "");
 		if (response.equals("nonexistant-number"))
 			throw new Exception("number does not exist");
 		try{

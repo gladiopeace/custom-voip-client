@@ -17,4 +17,12 @@ public class Database {
 		for (NumberIP nip: list) if (nip.getNumber().equals(number)) return nip.getIP();
 		return "nonexistant-number";
 	}
+	
+	public String toString(){
+		String result = "";
+		for(NumberIP nip: list){
+			result+=nip.toString()+" / ";
+		}
+		return result;
+	}
 }
