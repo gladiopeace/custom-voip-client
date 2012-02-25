@@ -14,7 +14,7 @@ public class SpeakerOutput {
 	public void playAudio(byte[] soundByte){
 		try{
 			InputStream byteArrayInputStream = new ByteArrayInputStream(soundByte);
-			AudioFormat audioFormat = this.getAudioFormat();
+			AudioFormat audioFormat = MicrophoneInput.getAudioFormat();
 			AudioInputStream audioInputStream = new AudioInputStream(byteArrayInputStream, audioFormat, soundByte.length/audioFormat.getFrameSize());
 			DataLine.Info dataLineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
 			SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLineInfo);
@@ -27,14 +27,5 @@ public class SpeakerOutput {
 	    	sourceDataLine.close();
 		}
 		catch(Exception s){}
-	}
-	
-	private AudioFormat getAudioFormat(){
-	    float sampleRate = 8000.0F;
-	    int sampleSizeInBits = 16;
-	    int channels = 1;
-	    boolean signed = true;
-	    boolean bigEndian = false;
-	    return new AudioFormat(sampleRate,sampleSizeInBits,channels,signed,bigEndian);
 	}
 }
