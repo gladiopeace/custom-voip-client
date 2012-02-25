@@ -11,6 +11,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 
 import control.CentralizedDataManager;
+import data.SoundManager;
 
 public class Window extends JFrame{
 	
@@ -83,7 +84,7 @@ public class Window extends JFrame{
 	}
 	
 	public void makeConnection(Socket socket){
-		
+		new SoundManager(socket);
 	}
 	
 	public void closeConnection(){
