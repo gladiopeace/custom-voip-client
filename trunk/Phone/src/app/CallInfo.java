@@ -28,6 +28,10 @@ public class CallInfo extends JPanel{
 		
 	}
 	
+	public boolean isDialBarEmpty(){
+		return this.getNumber().equals("");
+	}
+	
 	public String getNumber(){
 		return dialing.getText();
 	}

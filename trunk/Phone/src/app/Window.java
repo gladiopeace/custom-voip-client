@@ -47,7 +47,7 @@ public class Window extends JFrame{
 			makeConnection(connectionSocket);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			this.ci.setDialBar("NMBER DOES NOT EXIST");
 		}
 	}
 	
