@@ -20,6 +20,7 @@ public class IncomingCallReceiver implements Runnable{
             try {
                 Socket socket=serverSocket.accept();
                 if (window.isAvailable()){
+                	System.out.println("receiving call");
                 	window.makeConnection(socket);
                 	window.setInCall(true);
                 }
