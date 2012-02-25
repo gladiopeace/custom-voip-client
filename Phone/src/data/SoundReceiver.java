@@ -17,11 +17,11 @@ public class SoundReceiver implements Runnable {
         try{
             while (true){
             	int len = in.readInt();
-            	byte[] data = new byte[len];
-                if (len > 0) {
+                if (len == 3000) {
+                	byte[] data = new byte[len];
                     in.readFully(data);
+                    sm.speakerOutput.playAudio(data);
                 }
-            	sm.speakerOutput.playAudio(data);
             }
         }catch (IOException ioe) {} 
     } 
